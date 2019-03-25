@@ -30,6 +30,8 @@ Array *create_array(int capacity)
 
   // Allocate memory for elements
   new_array->elements = malloc(sizeof(char *) * capacity);
+
+  return new_array;
 }
 
 /*****
@@ -160,7 +162,7 @@ void arr_print(Array *arr)
       printf(",");
     }
   }
-  printf("]\n");
+  printf("\n");
 }
 
 #ifndef TESTING
@@ -168,6 +170,7 @@ int main(void)
 {
 
   Array *arr = create_array(1);
+  printf("%d\n", arr->count);
 
   // arr_insert(arr, "STRING1", 0);
   arr_append(arr, "string 1");
@@ -181,6 +184,7 @@ int main(void)
   printf("%s\n", arr_read(arr, 0));
   printf("%s\n", arr_read(arr, 1));
   printf("%s\n", arr_read(arr, 3));
+  printf("%d\n", arr->count);
 
   destroy_array(arr);
 
