@@ -79,13 +79,17 @@ void resize_array(Array *arr)
 char *arr_read(Array *arr, int index)
 {
   // Throw an error if the index is greater than the current count
-  if (index > arr->count)
+  if (index >= arr->count)
   {
-    fprintf(stderr, "Invalid index");
+    fprintf(stdout, "Invalid index\n");
+    return "\0"; // returning with null terminator because otherwise my print function yells
   }
 
   // Otherwise, return the element at the given index
-  return arr->elements[index];
+  else
+  {
+    return arr->elements[index];
+  }
 }
 
 /*****
@@ -165,13 +169,18 @@ int main(void)
 
   Array *arr = create_array(1);
 
-  arr_insert(arr, "STRING1", 0);
-  arr_append(arr, "STRING4");
-  arr_insert(arr, "STRING2", 0);
-  arr_insert(arr, "STRING3", 1);
+  // arr_insert(arr, "STRING1", 0);
+  arr_append(arr, "string 1");
+  arr_append(arr, "string 2");
+  arr_append(arr, "string 3");
+  // arr_insert(arr, "STRING2", 0);
+  // arr_insert(arr, "STRING3", 1);
   arr_print(arr);
-  arr_remove(arr, "STRING3");
-  arr_print(arr);
+  // arr_remove(arr, "STRING3");
+  // arr_print(arr);
+  printf("%s\n", arr_read(arr, 0));
+  printf("%s\n", arr_read(arr, 1));
+  printf("%s\n", arr_read(arr, 3));
 
   destroy_array(arr);
 
