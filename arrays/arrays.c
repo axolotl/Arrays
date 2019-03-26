@@ -29,7 +29,7 @@ Array *create_array(int capacity)
   new_array->count = 0;
 
   // Allocate memory for elements
-  new_array->elements = malloc(sizeof(char *) * capacity);
+  new_array->elements = calloc(0, sizeof(char *) * capacity);
 
   return new_array;
 }
@@ -83,8 +83,7 @@ char *arr_read(Array *arr, int index)
   // Throw an error if the index is greater than the current count
   if (index >= arr->count)
   {
-    fprintf(stdout, "Invalid index\n");
-    return "\0"; // returning with null terminator because otherwise my print function yells
+    return NULL;
   }
 
   // Otherwise, return the element at the given index
@@ -183,7 +182,7 @@ int main(void)
   // arr_print(arr);
   printf("%s\n", arr_read(arr, 0));
   printf("%s\n", arr_read(arr, 1));
-  printf("%s\n", arr_read(arr, 3));
+  printf("%s\n", arr_read(arr, 2));
   printf("%d\n", arr->count);
 
   destroy_array(arr);
