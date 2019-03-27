@@ -27,7 +27,6 @@ char *day_1_array_tests()
     return NULL;
 }
 
-
 char *day_2_array_tests()
 {
     Array *arr = create_array(1);
@@ -53,9 +52,12 @@ char *day_2_array_tests()
     mu_assert(strcmp(arr_read(arr, 1), "VALUE-3") == 0, "Insert value failed");
     mu_assert(strcmp(arr_read(arr, 2), "VALUE-1") == 0, "Insert value failed");
 
+    arr_print(arr);
     arr_remove(arr, "VALUE-3");
 
     mu_assert(arr->count == 2, "Remove count failed");
+
+    arr_print(arr);
 
     mu_assert(strcmp(arr_read(arr, 0), "VALUE-2") == 0, "Remove value failed");
     mu_assert(strcmp(arr_read(arr, 1), "VALUE-1") == 0, "Remove value failed");
@@ -65,9 +67,6 @@ char *day_2_array_tests()
 
     return NULL;
 }
-
-
-
 
 char *all_tests()
 {
