@@ -58,13 +58,11 @@ void destroy_array(Array *arr)
  *****/
 void resize_array(Array *arr)
 {
-  // Create a new element storage with double capacity
+  // calculate new capacity
+  arr->capacity = arr->capacity * 2;
 
-  // Copy elements into the new storage
-
-  // Free the old elements array (but NOT the strings they point to)
-
-  // Update the elements and capacity to new values
+  // realloc to new capacity
+  arr->elements = realloc(arr->elements, sizeof(char *) * arr->capacity);
 }
 
 /************************************
@@ -98,16 +96,33 @@ char *arr_read(Array *arr, int index)
  *****/
 void arr_insert(Array *arr, char *element, int index)
 {
-
   // Throw an error if the index is greater than the current count
+  if (index > arr->count)
+  {
+    fprintf(stderr, "Index not found");
+  }
+  else
+  {
+    // Resize the array if the number of elements is over capacity
+    if (arr->count == arr->capacity)
+    {
+      resize_array(arr);
+    }
 
-  // Resize the array if the number of elements is over capacity
+    // Move every element after the insert index to the right one position
+    int position = arr->count - 1;
+    while (position >= index)
+    {
+      arr->elements[position + 1] = arr->elements[position];
+      position--;
+    }
 
-  // Move every element after the insert index to the right one position
+    // Copy the element and add it to the array
+    arr->elements[index] = strdup(element);
 
-  // Copy the element and add it to the array
-
-  // Increment count by 1
+    // Increment count by 1
+    arr->count = arr->count + 1;
+  }
 }
 
 /*****
@@ -119,8 +134,7 @@ void arr_append(Array *arr, char *element)
   // or throw an error if resize isn't implemented yet.
   if (arr->count == arr->capacity)
   {
-    arr->capacity = arr->capacity * 2;
-    arr->elements = realloc(arr->elements, sizeof(char *) * arr->capacity);
+    resize_array(arr);
   }
 
   // Copy the element and add it to the end of the array
@@ -138,13 +152,38 @@ void arr_append(Array *arr, char *element)
  *****/
 void arr_remove(Array *arr, char *element)
 {
-
   // Search for the first occurence of the element and remove it.
   // Don't forget to free its memory!
+  int search_index = 0;
+  int found = 0;
+  while (search_index < arr->count && !found)
+  {
+    if (!strcmp(arr->elements[search_index], element))
+    {
+      free(arr->elements[search_index]);
+      found = 1;
+    }
+    else
+    {
+      search_index = search_index + 1;
+    }
+  }
+  if (!found)
+  {
+    fprintf(stderr, "Index not found");
+  }
+  else
+  {
+    // Shift over every element after the removed element to the left one position
+    while (search_index < arr->count - 1)
+    {
+      arr->elements[search_index] = arr->elements[search_index + 1];
+      search_index = search_index + 1;
+    }
 
-  // Shift over every element after the removed element to the left one position
-
-  // Decrement count by 1
+    // Decrement count by 1
+    arr->count = arr->count - 1;
+  }
 }
 
 /*****
